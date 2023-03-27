@@ -1,0 +1,85 @@
+---
+title: "Hello, Penguins!"
+format: html
+editor: visual
+execute: 
+  echo: true
+---
+
+# Introduction
+
+## Data {.smaller}
+
+For this analysis we'll use the `penguins` dataset from the [**palmerpenguins**](https://allisonhorst.github.io/palmerpenguins/) package.
+
+```{r}
+#| label: load-packages
+#| message: false
+#| include: false
+
+library(tidyverse)
+library(ggthemes)
+library(palmerpenguins)
+library(gt)
+```
+
+```{r}
+glimpse(penguins)
+```
+
+## Species
+
+@fig-bill-dims-species is a scatter plot of species of penguins.
+
+```{r}
+#| label: fig-bill-dims-species
+#| fig-width: 5
+#| fig-asp: 0.618
+#| fig-alt: |
+#|   A scatterplot of penguins' bill depth and length, colored by
+#|   species of penguins. There is a relatively strong, linear
+#|   association.
+#| fig-cap: |
+#|   A scatterplot of penguins' bill depth and length, colored by
+#|   species of penguins.
+#| code-line-numbers: "|9|10-11"
+#| output-location: slide
+#| echo: fenced
+
+ggplot(
+  penguins,
+  aes(
+    x = bill_length_mm, y = bill_depth_mm,
+    color = species
+  )
+) +
+  geom_point() +
+  geom_smooth() +
+  scale_color_colorblind() +
+  theme(legend.position = "top") +
+  labs(x = "Bill length (mm)", y = "Bill depth (mm)")
+```
+
+## Penguins {.smaller}
+
+@tbl-penguins-top10 shows the first 10 penguins from the dataset.
+
+```{r}
+#| label: tbl-penguins-top10
+#| tbl-cap: First 10 penguins.
+
+penguins |> # <1>
+  slice_head(n = 10) |> # <2>
+  select(species, island, bill_length_mm, bill_depth_mm) |> # <3>
+  gt() # <3>
+```
+
+1.  Start with the `penguins` data frame
+2.  Then slice the top ten rows
+3.  Select some variables and make a table with `gt()`
+
+# Analysis
+
+## Modeling results
+
+Some modeling results go here...
